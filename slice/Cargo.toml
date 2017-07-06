@@ -1,0 +1,21 @@
+[package]
+name = "dont_panic_slice"
+version = "0.1.0"
+authors = ["Martin Habovštiak <martin.habovstiak@gmail.com>"]
+license = "MITNFA"
+description = "Slice that causes link error instead of panicking."
+homepage = "https://github.com/Kixunil/dont_panic"
+repository = "https://github.com/Kixunil/dont_panic"
+readme = "README.md"
+keywords = ["panic", "static-check", "static_assert", "static-assert", "slice"]
+categories = ["no-std", "rust-patterns"]
+
+[features]
+default = []
+panic = ["dont_panic/panic"]
+
+[dependencies]
+dont_panic = "0.1"
+
+[profile.test]
+opt-level = 3
