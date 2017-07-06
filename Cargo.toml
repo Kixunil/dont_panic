@@ -2,6 +2,13 @@
 name = "dont_panic"
 version = "0.1.0"
 authors = ["Martin Habovštiak <martin.habovstiak@gmail.com>"]
+license = "MITNFA"
+description = "panic!()-like macro that causes linking error instead of panicking. May be used to statically ensure some code won't panic."
+homepage = "https://github.com/Kixunil/dont_panic"
+repository = "https://github.com/Kixunil/dont_panic"
+readme = "README.md"
+keywords = ["panic", "static-check", "static_assert", "static-assert"]
+categories = ["no-std", "rust-patterns"]
 
 [features]
 # Enables panicking
