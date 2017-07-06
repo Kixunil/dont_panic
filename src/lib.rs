@@ -66,7 +66,7 @@ macro_rules! dont_panic {
     });
 }
 
-/// Like asser but calls `dont_panic!()` instead of `panic!()`
+/// Like assert but calls `dont_panic!()` instead of `panic!()`
 #[macro_export]
 macro_rules! dp_assert {
     ($cond:expr) => (
