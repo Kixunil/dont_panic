@@ -39,15 +39,9 @@ extern "C" {
 #[cfg(not(feature = "panic"))]
 #[macro_export]
 macro_rules! dont_panic {
-    () => ({
+    ($($x:tt)*) => ({
         unsafe { $crate::rust_panic_called_where_shouldnt(); }
-    });
-    ($msg:expr) => ({
-        unsafe { $crate::rust_panic_called_where_shouldnt(); }
-    });
-    ($fmt:expr, $($arg:tt)+) => ({
-        unsafe { $crate::rust_panic_called_where_shouldnt(); }
-    });
+    })
 }
 
 /// This macro is active only with `panic` feature turned on and it will really panic, instead of
@@ -55,15 +49,9 @@ macro_rules! dont_panic {
 #[cfg(feature = "panic")]
 #[macro_export]
 macro_rules! dont_panic {
-    () => ({
-        panic!();
-    });
-    ($msg:expr) => ({
-        panic!($msg);
-    });
-    ($fmt:expr, $($arg:tt)+) => ({
-        panic!($fmt, $($arg)+);
-    });
+    ($($x:tt)*) => ({
+        panic!($($x)*);
+    })
 }
 
 /// Like assert but calls `dont_panic!()` instead of `panic!()`
