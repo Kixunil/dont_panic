@@ -1,7 +1,7 @@
 Don't panic!()
 ==============
 
-Ensure that code can't panic at compile time.
+Ensures that code can't panic at compile time.
 
 Example
 -------
@@ -15,7 +15,7 @@ if should_panic {
 }
 ```
 
-However, this code will cause linking error:
+However, this code will cause a linking error:
 
 ```rust
 let should_panic = true;
@@ -27,6 +27,6 @@ if should_panic {
 Caveats
 -------
 
-* This works only when appropriate opt_level is specified - it may require release build.
-* The error message is weird link error. You don't get line number, etc.
-* There may be situations in which you know that the code is unreachable but compiler can't prove it.
+* This works only when the appropriate opt_level is specified - it may require release build.
+* The error message is a weird link error. You don't get line number, etc.
+* There may be situations in which you know that the code is unreachable but the compiler can't prove it.

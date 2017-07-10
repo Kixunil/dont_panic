@@ -1,4 +1,4 @@
-//! This crate provides macros that look just like `panic!()` but instead of panicking, they cause
+//! This crate provides macros that look just like `panic!()` but instead of panicking, they cause a
 //! linking error if their calls are not optimized-out. This can be used to ensure the compiler
 //! optimizes away some code.
 //!
@@ -27,13 +27,13 @@
 #![no_std]
 
 extern "C" {
-    /// This function doesn't actually exist. It ensures linking error if it isn't optimized-out.
+    /// This function doesn't actually exist. It ensures a linking error if it isn't optimized-out.
     pub fn rust_panic_called_where_shouldnt() -> !;
 }
 
-/// This macro doesn't panic. Instead it tries to call non-existing function. If the compiler can
-/// prove it can't be called an optimizes it away, the code will compile just fine. Else you get
-/// linking error.
+/// This macro doesn't panic. Instead it tries to call a non-existing function. If the compiler can
+/// prove it can't be called and optimizes it away, the code will compile just fine. Otherwise you get
+/// a linking error.
 ///
 /// This should be used only in cases you are absolutely sure are OK and optimizable by compiler.
 #[cfg(not(feature = "panic"))]
@@ -45,7 +45,7 @@ macro_rules! dont_panic {
 }
 
 /// This macro is active only with `panic` feature turned on and it will really panic, instead of
-/// linking error. The purpose is to make development easier. (E.g. in debug mode.)
+/// causing a linking error. The purpose is to make development easier. (E.g. in debug mode.)
 #[cfg(feature = "panic")]
 #[macro_export]
 macro_rules! dont_panic {
