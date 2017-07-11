@@ -70,6 +70,30 @@ macro_rules! dp_assert {
     );
 }
 
+/// This function calls the given closure, asserting that there's no possibility of panicking.
+/// If the compiler can't prove this, the code will be left with a `dont_panic!` linking error.
+#[cfg(not(feature = "panic"))]
+pub fn call<T, F: FnOnce() -> T>(f: F) -> T {
+    struct DontPanic;
+    impl Drop for DontPanic {
+        fn drop(&mut self) {
+            dont_panic!();
+        }
+    }
+
+    let guard = DontPanic;
+    let result = f();
+    core::mem::forget(guard);
+    result
+}
+
+/// With the `panic` feature turned on, this function just calls the closure directly, letting
+/// it panic or not on its own.
+#[cfg(feature = "panic")]
+pub fn call<T, F: FnOnce() -> T>(f: F) -> T {
+    f()
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -78,6 +102,12 @@ mod tests {
         if should_panic {
             dont_panic!();
         }
+    }
+
+    #[test]
+    fn call_slice_index() {
+        let foo = [1, 2, 3];
+        super::call(|| assert_eq!(foo[0] + foo[1] + foo[2], 6));
     }
 
     #[cfg(feature = "panic")]
@@ -97,5 +127,13 @@ mod tests {
         if should_panic {
             dont_panic!();
         }
+    }
+
+    #[cfg(feature = "panic")]
+    #[test]
+    #[should_panic]
+    fn call_slice_index_panic() {
+        let foo = [1, 2, 3];
+        super::call(|| assert_eq!(foo[1] + foo[2] + foo[3], 6));
     }
 }
